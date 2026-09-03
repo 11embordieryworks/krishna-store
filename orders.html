@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders - KRISHNA STORE</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .orders-section {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .orders-section h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .order-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .order-status {
+            font-weight: bold;
+        }
+        
+        .tracking {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        .tracking::before {
+            content: "";
+            position: absolute;
+            top: 18px;
+            left: 8%;
+            right: 8%;
+            height: 3px;
+            background: #ddd;
+            z-index: 0;
+        }
+        
+        .track-step {
+            text-align: center;
+            width: 20%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .track-circle {
+            width: 36px;
+            height: 36px;
+            margin: auto;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .track-step.active .track-circle {
+            background: green;
+            color: white;
+        }
+        
+        .track-step p {
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        
+        .order-products {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        
+        .order-product {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+        
+        .order-product img {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        
+        .empty-orders {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .orders-section {
+                padding: 15px;
+            }
+            .tracking::before {
+                display: none;
+            }
+            .tracking {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .track-step {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                text-align: left;
+            }
+            .track-circle {
+                margin: 0;
+                flex-shrink: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+
+            <a href="index.html">Home</a>
+
+            <a href="products.html">Products</a>
+
+            <a href="products.html?category=men">Men</a>
+
+            <a href="products.html?category=women">Women</a>
+
+            <a href="products.html?category=kids">Kids</a>
+
+            <a href="cart.html">
+                Cart 🛒
+                (<span class="cart-count">0</span>)
+            </a>
+
+            <a href="wishlist.html">
+                Wishlist ❤️
+                (<span class="wishlist-count">0</span>)
+            </a>
+
+            <a href="orders.html">
+                My Orders
+            </a>
+
+            <a href="recently-viewed.html">
+                Recently Viewed 👀
+            </a>
+
+        </nav>
+    </header>
+
+
+    <section class="orders-section">
+
+        <h1>My Orders 📦</h1>
+
+        <div id="orders-container"></div>
+
+    </section>
+
+
+    <footer>
+        <p>
+            © 2026 KRISHNA STORE. All Rights Reserved.
+        </p>
+    </footer>
+
+
+    <script src="js/cart.js"></script>
+    <script src="js/wishlist.js"></script>
+
+
+    <script>
+        function getStatusIndex(status) {
+
+            const statuses = [
+                "Order Placed",
+                "Processing",
+                "Shipped",
+                "Out for Delivery",
+                "Delivered"
+            ];
+
+            return statuses.indexOf(status);
+        }
+
+
+        function displayOrders() {
+
+            const container =
+                document.getElementById(
+                    "orders-container"
+                );
+
+            const orders =
+                JSON.parse(
+                    localStorage.getItem("orders")
+                ) || [];
+
+
+            if (orders.length === 0) {
+
+                container.innerHTML = `
+                    <div class="empty-orders">
+
+                        <div style="font-size:55px;">
+                            📦
+                        </div>
+
+                        <h2>
+                            No Orders Yet
+                        </h2>
+
+                        <p>
+                            Your orders will appear here.
+                        </p>
+
+                        <a
+                            href="products.html"
+                            style="
+                                display:inline-block;
+                                padding:12px 20px;
+                                background:#111;
+                                color:white;
+                                text-decoration:none;
+                                border-radius:5px;
+                            "
+                        >
+                            Start Shopping
+                        </a>
+
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            container.innerHTML = "";
+
+
+            orders.forEach(function(order) {
+
+                const status =
+                    order.status ||
+                    "Order Placed";
+
+                const currentIndex =
+                    getStatusIndex(status);
+
+
+                let productsHTML = "";
+
+
+                if (order.items) {
+
+                    order.items.forEach(function(item) {
+
+                        productsHTML += `
+                            <div class="order-product">
+
+                                <img
+                                    src="${item.image || ""}"
+                                    alt="${item.name}"
+                                >
+
+                                <div>
+                                    <strong>
+                                        ${item.name}
+                                    </strong>
+
+                                    <p>
+                                        Qty:
+                                        ${item.quantity}
+                                    </p>
+
+                                    <p>
+                                        Size:
+                                        ${item.size || "M"}
+                                    </p>
+                                </div>
+
+                            </div>
+                        `;
+
+                    });
+
+                }
+
+
+                container.innerHTML += `
+
+                    <div class="order-card">
+
+                        <div class="order-header">
+
+                            <div>
+
+                                <strong>
+                                    Order #${order.id || "1001"}
+                                </strong>
+
+                                <p>
+                                    Date:
+                                    ${order.date || "Recently"}
+                                </p>
+
+                            </div>
+
+                            <div class="order-status">
+                                ${status}
+                            </div>
+
+                        </div>
+
+
+                        <div class="tracking">
+
+                            <div class="track-step ${
+                                currentIndex >= 0
+                                ? "active"
+                                : ""
+                            }">
+
+                                <div class="track-circle">
+                                    🛒
+                                </div>
+
+                                <p>
+                                    Order Placed
+                                </p>
+
+                            </div>
+
+
+                            <div class="track-step ${
+                                currentIndex >= 1
+                                ? "active"
+                                : ""
+                            }">
+
+                                <div class="track-circle">
+                                    📦
+                                </div>
+
+                                <p>
+                                    Processing
+                                </p>
+
+                            </div>
+
+
+                            <div class="track-step ${
+                                currentIndex >= 2
+                                ? "active"
+                                : ""
+                            }">
+
+                                <div class="track-circle">
+                                    🚚
+                                </div>
+
+                                <p>
+                                    Shipped
+                                </p>
+
+                            </div>
+
+
+                            <div class="track-step ${
+                                currentIndex >= 3
+                                ? "active"
+                                : ""
+                            }">
+
+                                <div class="track-circle">
+                                    🏠
+                                </div>
+
+                                <p>
+                                    Out for Delivery
+                                </p>
+
+                            </div>
+
+
+                            <div class="track-step ${
+                                currentIndex >= 4
+                                ? "active"
+                                : ""
+                            }">
+
+                                <div class="track-circle">
+                                    ✓
+                                </div>
+
+                                <p>
+                                    Delivered
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="order-products">
+
+                            <h3>
+                                Products
+                            </h3>
+
+                            ${productsHTML}
+
+                            <h3>
+                                Total:
+                                ₹${order.total || 0}
+                            </h3>
+
+                        </div>
+
+                    </div>
+                `;
+
+            });
+
+        }
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            displayOrders
+        );
+    </script>
+
+</body>
+
+</html>

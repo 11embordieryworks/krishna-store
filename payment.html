@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payment - Krishna Store</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <header>
+
+        <div class="logo">
+            KRISHNA STORE
+        </div>
+
+        <nav>
+
+            <a href="index.html">Home</a>
+
+            <a href="products.html">Products</a>
+
+            <a href="cart.html">
+    Cart 🛒 (<span class="cart-count">0</span>)
+</a>
+            <a href="orders.html">My Orders</a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- Payment Section -->
+
+    <section class="payment-section">
+
+        <h1>
+            Payment 💳
+        </h1>
+
+
+        <div class="payment-container">
+
+
+            <!-- Payment Methods -->
+
+            <div class="payment-methods">
+
+                <h2>
+                    Select Payment Method
+                </h2>
+
+
+                <label class="payment-option">
+
+                    <input
+                        type="radio"
+                        name="payment"
+                        value="Cash on Delivery"
+                        checked
+                    >
+
+                    <span>
+                        💵 Cash on Delivery
+                    </span>
+
+                </label>
+
+
+                <label class="payment-option">
+
+                    <input
+                        type="radio"
+                        name="payment"
+                        value="UPI"
+                    >
+
+                    <span>
+                        📱 UPI
+                    </span>
+
+                </label>
+
+
+                <label class="payment-option">
+
+                    <input
+                        type="radio"
+                        name="payment"
+                        value="Card"
+                    >
+
+                    <span>
+                        💳 Card
+                    </span>
+
+                </label>
+
+
+                <p class="demo-note">
+                    This is a demo payment page. No real payment will be processed.
+                </p>
+
+
+                <button class="checkout-btn" onclick="confirmPayment()">
+
+                    Confirm Order ✅
+
+                </button>
+
+            </div>
+
+
+            <!-- Order Total -->
+
+            <div class="payment-summary">
+
+                <h2>
+                    Order Summary
+                </h2>
+
+
+                <div class="payment-total">
+
+                    <span>
+                        Total Amount
+                    </span>
+
+                    <strong>
+                        ₹<span id="payment-total">
+                            0
+                        </span>
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 KRISHNA STORE. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <script>
+        // Get order total
+
+        const total =
+            localStorage.getItem(
+                "orderTotal"
+            ) || "0";
+
+
+        document.getElementById(
+            "payment-total"
+        ).textContent = total;
+
+
+
+        function confirmPayment() {
+
+
+            const selectedPayment =
+                document.querySelector(
+                    'input[name="payment"]:checked'
+                );
+
+
+            if (!selectedPayment) {
+
+                alert(
+                    "Please select a payment method."
+                );
+
+                return;
+
+            }
+
+
+            const paymentMethod =
+                selectedPayment.value;
+
+
+            // Generate Order ID
+
+            const orderId =
+                "KS" +
+                Math.floor(
+                    100000 +
+                    Math.random() * 900000
+                );
+
+
+            // Save Order ID
+
+            localStorage.setItem(
+                "orderId",
+                orderId
+            );
+
+
+            // Get existing orders
+
+            const orders =
+                JSON.parse(
+                    localStorage.getItem("orders")
+                ) || [];
+
+
+            // Add new order
+
+            orders.push({
+
+                orderId: orderId,
+
+                total: total,
+
+                paymentMethod: paymentMethod,
+
+                date: new Date().toLocaleString(),
+
+                status: "Order Confirmed"
+
+            });
+
+
+            // Save orders
+
+            localStorage.setItem(
+                "orders",
+                JSON.stringify(orders)
+            );
+
+
+            // Clear cart only after confirmation
+
+            localStorage.removeItem(
+                "cart"
+            );
+
+
+            // Go to success page
+
+            window.location.href =
+                "order-success.html";
+
+        }
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Wishlist - Krishna Store</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            KRISHNA STORE
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="products.html?category=men">Men</a>
+            <a href="products.html?category=women">Women</a>
+            <a href="products.html?category=kids">Kids</a>
+            <a href="cart.html">
+    Cart 🛒 (<span class="cart-count">0</span>)
+</a>
+
+            <a href="wishlist.html">
+        Wishlist ❤️ (<span class="wishlist-count">0</span>)
+    </a>
+
+            <a href="orders.html">My Orders</a>
+        </nav>
+    </header>
+
+
+    <section class="wishlist-section">
+
+        <h1>
+            My Wishlist ❤️
+        </h1>
+
+        <div id="wishlist-container" class="wishlist-grid">
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            © 2026 KRISHNA STORE. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <script>
+        const wishlist =
+            JSON.parse(
+                localStorage.getItem("wishlist")
+            ) || [];
+
+
+        const container =
+            document.getElementById(
+                "wishlist-container"
+            );
+
+
+        function displayWishlist() {
+
+            container.innerHTML = "";
+
+
+            if (wishlist.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="empty-wishlist">
+
+                        <div class="empty-heart">
+                            ❤️
+                        </div>
+
+                        <h2>
+                            Your Wishlist is Empty
+                        </h2>
+
+                        <p>
+                            Save your favourite
+                            products here.
+                        </p>
+
+                        <a
+                            href="products.html"
+                            class="checkout-btn">
+
+                            🛍️ Start Shopping
+
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            wishlist.forEach(
+                function(product, index) {
+
+                    container.innerHTML += `
+
+                        <div class="wishlist-card">
+
+                            <img
+                                src="${product.image}"
+                                alt="${product.name}"
+                            >
+
+                            <h3>
+                                ${product.name}
+                            </h3>
+
+                            <p class="price">
+                                ₹${product.price}
+                            </p>
+
+                            <div
+                                class="wishlist-buttons">
+
+                                <a
+                                    href="product-details.html?product=${product.id}"
+                                    class="cart-btn">
+
+                                    View Product
+
+                                </a>
+
+                                <button
+                                    onclick="removeWishlist(${index})">
+
+                                    Remove ❤️
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+        }
+
+
+        function removeWishlist(index) {
+
+            wishlist.splice(index, 1);
+
+            localStorage.setItem(
+                "wishlist",
+                JSON.stringify(wishlist)
+            );
+
+            displayWishlist();
+
+        }
+
+
+        displayWishlist();
+    </script>
+
+</body>
+
+</html>

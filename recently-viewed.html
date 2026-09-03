@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Recently Viewed - KRISHNA STORE</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .recent-section {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        
+        .recent-section h1 {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        
+        .recent-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+        
+        .recent-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .recent-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .recent-card h3 {
+            margin: 15px 0 8px;
+        }
+        
+        .recent-card p {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .recent-card a {
+            display: block;
+            padding: 10px;
+            background: #111;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        
+        .empty-recent {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        
+        .empty-recent p {
+            color: #777;
+            font-weight: normal;
+        }
+        
+        @media (max-width: 900px) {
+            .recent-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .recent-grid {
+                grid-template-columns: 1fr;
+            }
+            .recent-section {
+                margin: 25px auto;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="products.html?category=men">Men</a>
+            <a href="products.html?category=women">Women</a>
+            <a href="products.html?category=kids">Kids</a>
+
+            <a href="cart.html">
+                Cart 🛒 (<span class="cart-count">0</span>)
+            </a>
+
+            <a href="wishlist.html">
+                Wishlist ❤️ (<span class="wishlist-count">0</span>)
+            </a>
+
+            <a href="orders.html">My Orders</a>
+
+            <a href="recently-viewed.html">
+                Recently Viewed 👀
+            </a>
+        </nav>
+    </header>
+
+
+    <section class="recent-section">
+
+        <h1>Recently Viewed Products 👀</h1>
+
+        <div id="recent-products" class="recent-grid">
+        </div>
+
+    </section>
+
+
+    <footer>
+        <p>© 2026 KRISHNA STORE. All Rights Reserved.</p>
+    </footer>
+
+
+    <script src="js/cart.js"></script>
+    <script src="js/wishlist.js"></script>
+
+    <script>
+        const recentProducts =
+            JSON.parse(
+                localStorage.getItem("recentlyViewed")
+            ) || [];
+
+        const container =
+            document.getElementById("recent-products");
+
+        if (recentProducts.length === 0) {
+
+            container.innerHTML = `
+                <div class="empty-recent">
+
+                    <div style="font-size:55px;">
+                        👀
+                    </div>
+
+                    <h2>
+                        No Recently Viewed Products
+                    </h2>
+
+                    <p>
+                        Products you view will appear here.
+                    </p>
+
+                    <a
+                        href="products.html"
+                        style="
+                            display:inline-block;
+                            padding:12px 20px;
+                            background:#111;
+                            color:white;
+                            text-decoration:none;
+                            border-radius:5px;
+                        "
+                    >
+                        Browse Products
+                    </a>
+
+                </div>
+            `;
+
+        } else {
+
+            recentProducts.forEach(function(product) {
+
+                container.innerHTML += `
+                    <div class="recent-card">
+
+                        <img
+                            src="${product.image}"
+                            alt="${product.name}"
+                        >
+
+                        <h3>
+                            ${product.name}
+                        </h3>
+
+                        <p>
+                            ₹${product.price}
+                        </p>
+
+                        <a
+                            href="product-details.html?product=${product.id}"
+                        >
+                            View Product
+                        </a>
+
+                    </div>
+                `;
+
+            });
+
+        }
+    </script>
+
+</body>
+
+</html>

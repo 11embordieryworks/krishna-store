@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Details - Krishna Store</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+
+        <div class="logo">
+            KRISHNA STORE
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="products.html?category=men">Men</a>
+            <a href="products.html?category=women">Women</a>
+            <a href="products.html?category=kids">Kids</a>
+            <a href="cart.html">
+    Cart 🛒 (<span class="cart-count">0</span>)
+</a>
+
+            <a href="wishlist.html">
+                Wishlist ❤️
+                (<span class="wishlist-count">0</span>)
+            </a>
+
+            <a href="orders.html">My Orders</a>
+        </nav>
+
+    </header>
+
+
+    <!-- PRODUCT DETAILS -->
+    <section class="product-details">
+
+        <!-- PRODUCT IMAGE GALLERY -->
+        <div class="details-image">
+
+            <div class="main-product-image">
+
+                <img id="product-image" src="" alt="Product">
+
+            </div>
+
+            <div id="thumbnail-container" class="thumbnail-container">
+            </div>
+
+        </div>
+
+
+        <!-- PRODUCT INFORMATION -->
+        <div class="details-info">
+
+            <span class="product-badge">
+                SALE
+            </span>
+
+            <h1 id="product-name">
+                Product Name
+            </h1>
+
+            <div class="rating">
+                ⭐⭐⭐⭐⭐
+            </div>
+
+            <p id="product-old-price" class="old-price">
+            </p>
+
+            <p id="product-price" class="price">
+            </p>
+
+            <p id="product-description">
+                Product description
+            </p>
+
+
+            <!-- SIZE -->
+            <label for="product-size">
+                Select Size:
+            </label>
+
+            <select id="product-size">
+
+                <option value="S">
+                    S
+                </option>
+
+                <option value="M" selected>
+                    M
+                </option>
+
+                <option value="L">
+                    L
+                </option>
+
+                <option value="XL">
+                    XL
+                </option>
+
+            </select>
+
+
+            <!-- QUANTITY -->
+            <label for="product-quantity">
+                Quantity:
+            </label>
+
+            <input type="number" id="product-quantity" value="1" min="1" max="10">
+
+
+            <!-- ADD TO CART -->
+            <button class="cart-btn" onclick="addCurrentProductToCart()">
+
+                Add to Cart 🛒
+
+            </button>
+
+
+            <!-- WISHLIST -->
+            <button id="wishlistButton" class="wishlist-details-btn" onclick="addDetailsToWishlist()">
+
+                ♡ Add to Wishlist
+
+            </button>
+
+
+            <br><br>
+
+            <a href="products.html" class="continue-btn">
+
+                ← Back to Products
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- CUSTOMER REVIEWS -->
+    <section class="reviews-section">
+
+        <h2>
+            Customer Reviews ⭐
+        </h2>
+
+
+        <div id="reviews-list">
+
+            <p>
+                No reviews yet. Be the first to review!
+            </p>
+
+        </div>
+
+
+        <!-- REVIEW FORM -->
+        <div class="review-form">
+
+            <h3>
+                Write a Review
+            </h3>
+
+
+            <select id="review-rating">
+
+                <option value="5">
+                    ★★★★★ - Excellent
+                </option>
+
+                <option value="4">
+                    ★★★★☆ - Very Good
+                </option>
+
+                <option value="3">
+                    ★★★☆☆ - Good
+                </option>
+
+                <option value="2">
+                    ★★☆☆☆ - Fair
+                </option>
+
+                <option value="1">
+                    ★☆☆☆☆ - Poor
+                </option>
+
+            </select>
+
+
+            <input type="text" id="review-name" placeholder="Your Name">
+
+
+            <textarea id="review-text" placeholder="Write your review...">
+            </textarea>
+
+
+            <button class="cart-btn" onclick="submitReview()">
+
+                Submit Review
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <p>
+            © 2026 KRISHNA STORE. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <!-- CART JAVASCRIPT -->
+    <script src="js/cart.js"></script>
+
+    <!-- WISHLIST JAVASCRIPT -->
+    <script src="js/wishlist.js"></script>
+
+
+    <script>
+        /* =========================
+                                   PRODUCT DATA
+                                ========================= */
+
+        const products = {
+
+            tshirt: {
+
+                name: "Classic T-Shirt",
+
+                price: 499,
+
+                oldPrice: 699,
+
+                image: "images/tshirt.jpg",
+
+                images: [
+                    "images/tshirt.jpg"
+                ],
+
+                description: "Comfortable and stylish classic T-Shirt suitable for everyday wear."
+
+            },
+
+
+            shirt: {
+
+                name: "Casual Shirt",
+
+                price: 699,
+
+                oldPrice: 899,
+
+                image: "images/shirt.jpg",
+
+                images: [
+                    "images/shirt.jpg"
+                ],
+
+                description: "Stylish casual shirt made for comfortable everyday fashion."
+
+            },
+
+
+            jeans: {
+
+                name: "Regular Jeans",
+
+                price: 999,
+
+                oldPrice: 1299,
+
+                image: "images/jeans.jpg",
+
+                images: [
+                    "images/jeans.jpg"
+                ],
+
+                description: "Comfortable regular-fit jeans with a modern stylish look."
+
+            },
+
+
+            dress: {
+
+                name: "Fashion Dress",
+
+                price: 899,
+
+                oldPrice: 1199,
+
+                image: "images/dress.jpg",
+
+                images: [
+                    "images/dress.jpg"
+                ],
+
+                description: "Beautiful fashion dress with a comfortable and modern design."
+
+            },
+
+
+            jacket: {
+
+                name: "Winter Jacket",
+
+                price: 1499,
+
+                oldPrice: 1999,
+
+                image: "images/jacket.jpg",
+
+                images: [
+                    "images/jacket.jpg"
+                ],
+
+                description: "Warm and stylish winter jacket for a comfortable outdoor look."
+
+            },
+
+
+            top: {
+
+                name: "Women Top",
+
+                price: 599,
+
+                oldPrice: 799,
+
+                image: "images/top.jpg",
+
+                images: [
+                    "images/top.jpg"
+                ],
+
+                description: "Trendy women's top designed for a simple and stylish look."
+
+            },
+
+
+            kids: {
+
+                name: "Kids Casual T-Shirt",
+
+                price: 399,
+
+                oldPrice: 599,
+
+                image: "images/kid.jpg",
+
+                images: [
+                    "images/kid.jpg"
+                ],
+
+                description: "Comfortable and colourful casual T-Shirt for kids."
+
+            }
+
+        };
+
+
+        /* =========================
+           GET PRODUCT FROM URL
+        ========================= */
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const productKey =
+            urlParams.get("product") || "tshirt";
+
+
+        const product =
+            products[productKey] ||
+            products.tshirt;
+
+
+        /* =========================
+           DISPLAY PRODUCT
+        ========================= */
+
+        document.getElementById(
+            "product-image"
+        ).src = product.image;
+
+
+        document.getElementById(
+            "product-image"
+        ).alt = product.name;
+
+
+        document.getElementById(
+            "product-name"
+        ).textContent = product.name;
+
+
+        document.getElementById(
+                "product-old-price"
+            ).textContent =
+            "₹" + product.oldPrice;
+
+
+        document.getElementById(
+                "product-price"
+            ).textContent =
+            "₹" + product.price;
+
+
+        document.getElementById(
+                "product-description"
+            ).textContent =
+            product.description;
+
+        function saveRecentlyViewed(product) {
+
+            let recentlyViewed =
+                JSON.parse(
+                    localStorage.getItem("recentlyViewed")
+                ) || [];
+
+            // Already exists ante remove chesi top lo add chestham
+            recentlyViewed =
+                recentlyViewed.filter(
+                    item => item.id !== product.id
+                );
+
+            recentlyViewed.unshift({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image
+            });
+
+            // Maximum 6 products only
+            recentlyViewed =
+                recentlyViewed.slice(0, 6);
+
+            localStorage.setItem(
+                "recentlyViewed",
+                JSON.stringify(recentlyViewed)
+            );
+        }
+
+
+        /* =========================
+           IMAGE GALLERY
+        ========================= */
+
+        function displayGallery() {
+
+            const container =
+                document.getElementById(
+                    "thumbnail-container"
+                );
+
+
+            container.innerHTML = "";
+
+
+            product.images.forEach(
+                function(image, index) {
+
+                    container.innerHTML += `
+
+                        <img
+                            src="${image}"
+                            class="product-thumbnail ${index === 0 ? "selected" : ""}"
+                            onclick="changeMainImage('${image}', this)"
+                            alt="${product.name}">
+
+                    `;
+
+                }
+            );
+
+        }
+
+
+        function changeMainImage(
+            image,
+            thumbnail
+        ) {
+
+            document.getElementById(
+                "product-image"
+            ).src = image;
+
+
+            document.querySelectorAll(
+                ".product-thumbnail"
+            ).forEach(
+                function(item) {
+
+                    item.classList.remove(
+                        "selected"
+                    );
+
+                }
+            );
+
+
+            thumbnail.classList.add(
+                "selected"
+            );
+
+        }
+
+
+        displayGallery();
+
+
+        /* =========================
+           ADD TO CART
+        ========================= */
+
+        function addCurrentProductToCart() {
+
+            const size =
+                document.getElementById(
+                    "product-size"
+                ).value;
+
+
+            const quantity =
+                Number(
+                    document.getElementById(
+                        "product-quantity"
+                    ).value
+                );
+
+
+            if (quantity < 1) {
+
+                alert(
+                    "Please select a valid quantity."
+                );
+
+                return;
+
+            }
+
+
+            addToCart(
+                product.name,
+                product.price,
+                size,
+                quantity
+            );
+
+        }
+
+
+        /* =========================
+           WISHLIST
+        ========================= */
+
+        function addDetailsToWishlist() {
+
+            let wishlist =
+                JSON.parse(
+                    localStorage.getItem(
+                        "wishlist"
+                    )
+                ) || [];
+
+
+            const existing =
+                wishlist.find(
+                    item =>
+                    item.id === productKey
+                );
+
+
+            if (existing) {
+
+                wishlist =
+                    wishlist.filter(
+                        item =>
+                        item.id !== productKey
+                    );
+
+                alert(
+                    product.name +
+                    " removed from wishlist ❤️"
+                );
+
+            } else {
+
+                wishlist.push({
+
+                    name: product.name,
+
+                    price: product.price,
+
+                    id: productKey,
+
+                    image: product.image
+
+                });
+
+
+                alert(
+                    product.name +
+                    " added to wishlist ❤️"
+                );
+
+            }
+
+
+            localStorage.setItem(
+                "wishlist",
+                JSON.stringify(wishlist)
+            );
+
+
+            updateDetailsWishlistButton();
+
+
+            if (typeof updateWishlistCount === "function") {
+
+                updateWishlistCount();
+
+            }
+
+        }
+
+
+        function updateDetailsWishlistButton() {
+
+            const button =
+                document.getElementById(
+                    "wishlistButton"
+                );
+
+
+            const wishlist =
+                JSON.parse(
+                    localStorage.getItem(
+                        "wishlist"
+                    )
+                ) || [];
+
+
+            const exists =
+                wishlist.some(
+                    item =>
+                    item.id === productKey
+                );
+
+
+            if (exists) {
+
+                button.textContent =
+                    "♥️ Remove from Wishlist";
+
+                button.classList.add(
+                    "active"
+                );
+
+            } else {
+
+                button.textContent =
+                    "♡ Add to Wishlist";
+
+                button.classList.remove(
+                    "active"
+                );
+
+            }
+
+        }
+
+
+        /* =========================
+           REVIEWS
+        ========================= */
+
+        function getReviews() {
+
+            return JSON.parse(
+                localStorage.getItem(
+                    "productReviews"
+                )
+            ) || {};
+
+        }
+
+
+        function submitReview() {
+
+            const name =
+                document.getElementById(
+                    "review-name"
+                ).value.trim();
+
+
+            const text =
+                document.getElementById(
+                    "review-text"
+                ).value.trim();
+
+
+            const rating =
+                Number(
+                    document.getElementById(
+                        "review-rating"
+                    ).value
+                );
+
+
+            if (name === "") {
+
+                alert(
+                    "Please enter your name."
+                );
+
+                return;
+
+            }
+
+
+            if (text === "") {
+
+                alert(
+                    "Please write a review."
+                );
+
+                return;
+
+            }
+
+
+            const reviews =
+                getReviews();
+
+
+            if (!reviews[productKey]) {
+
+                reviews[productKey] = [];
+
+            }
+
+
+            reviews[productKey].push({
+
+                name: name,
+
+                rating: rating,
+
+                text: text,
+
+                date: new Date()
+                    .toLocaleDateString()
+
+            });
+
+
+            localStorage.setItem(
+                "productReviews",
+                JSON.stringify(reviews)
+            );
+
+
+            document.getElementById(
+                "review-name"
+            ).value = "";
+
+
+            document.getElementById(
+                "review-text"
+            ).value = "";
+
+
+            displayReviews();
+
+
+            alert(
+                "Review submitted successfully! ⭐"
+            );
+
+        }
+
+
+        function displayReviews() {
+
+            const reviews =
+                getReviews();
+
+
+            const productReviews =
+                reviews[productKey] || [];
+
+
+            const container =
+                document.getElementById(
+                    "reviews-list"
+                );
+
+
+            if (
+                productReviews.length === 0
+            ) {
+
+                container.innerHTML = `
+                    <p>
+                        No reviews yet.
+                        Be the first to review!
+                    </p>
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML = "";
+
+
+            productReviews.forEach(
+                function(review) {
+
+                    const stars =
+                        "★".repeat(
+                            review.rating
+                        ) +
+                        "☆".repeat(
+                            5 - review.rating
+                        );
+
+
+                    container.innerHTML += `
+
+                        <div class="review-card">
+
+                            <div class="review-stars">
+                                ${stars}
+                            </div>
+
+                            <h4>
+                                ${review.name}
+                            </h4>
+
+                            <p>
+                                ${review.text}
+                            </p>
+
+                            <small>
+                                ${review.date}
+                            </small>
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+        }
+
+
+        /* =========================
+           START
+        ========================= */
+
+        updateDetailsWishlistButton();
+
+        displayReviews();
+    </script>
+
+</body>
+
+</html>

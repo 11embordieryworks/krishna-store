@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Products - KRISHNA STORE</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Product page controls */
+        
+        .products-controls {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        #searchInput,
+        #categoryFilter,
+        #sortProducts {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: white;
+            font-size: 14px;
+        }
+        
+        #searchInput {
+            width: 280px;
+        }
+        /* Wishlist */
+        
+        .wishlist-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: white;
+            font-size: 25px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            z-index: 2;
+        }
+        
+        .wishlist-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .wishlist-btn.active {
+            color: red;
+        }
+        
+        .product {
+            position: relative;
+        }
+        
+        .wishlist-count,
+        .cart-count {
+            font-weight: bold;
+            color: red;
+        }
+        /* Discount */
+        
+        .price {
+            margin: 10px 0;
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            color: #888;
+            margin-right: 8px;
+            font-weight: normal;
+        }
+        
+        .offer-price {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .offer-badge {
+            display: inline-block;
+            margin: 5px 0 10px;
+            padding: 5px 8px;
+            background: #111;
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        /* Stock */
+        
+        .stock {
+            font-weight: bold;
+            margin: 8px 0;
+        }
+        
+        .in-stock {
+            color: green;
+        }
+        
+        .low-stock {
+            color: #d97706;
+        }
+        
+        .out-of-stock {
+            color: red;
+        }
+        /* Mobile */
+        
+        @media (max-width: 600px) {
+            .products-controls {
+                flex-direction: column;
+                padding: 0 15px;
+            }
+            #searchInput,
+            #categoryFilter,
+            #sortProducts {
+                width: 100%;
+                box-sizing: border-box;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+        <nav>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="products.html">
+                Products
+            </a>
+
+            <a href="products.html?category=men">
+                Men
+            </a>
+
+            <a href="products.html?category=women">
+                Women
+            </a>
+
+            <a href="products.html?category=kids">
+                Kids
+            </a>
+
+            <a href="cart.html">
+                Cart 🛒
+                (<span class="cart-count">0</span>)
+            </a>
+
+            <a href="wishlist.html">
+                Wishlist ❤️
+                (<span class="wishlist-count">0</span>)
+            </a>
+
+            <a href="orders.html">
+                My Orders
+            </a>
+
+            <a href="recently-viewed.html">
+                Recently Viewed 👀
+            </a>
+
+        </nav>
+    </header>
+
+
+    <!-- PAGE TITLE -->
+
+    <section class="products-section">
+
+        <h1>
+            Our Products
+        </h1>
+
+
+        <!-- SEARCH / FILTER / SORT -->
+
+        <div class="products-controls">
+
+            <input type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()">
+
+            <select id="categoryFilter" onchange="filterProducts()">
+
+                <option value="all">
+                    All Categories
+                </option>
+
+                <option value="men">
+                    Men
+                </option>
+
+                <option value="women">
+                    Women
+                </option>
+
+                <option value="kids">
+                    Kids
+                </option>
+
+            </select>
+
+
+            <select id="sortProducts" onchange="sortProducts()">
+
+                <option value="default">
+                    Sort By
+                </option>
+
+                <option value="price-low">
+                    Price: Low to High
+                </option>
+
+                <option value="price-high">
+                    Price: High to Low
+                </option>
+
+                <option value="name-az">
+                    Name: A to Z
+                </option>
+
+                <option value="name-za">
+                    Name: Z to A
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- PRODUCTS -->
+
+        <div class="product-grid">
+
+
+            <!-- CLASSIC T-SHIRT -->
+
+            <div class="product" data-category="men" data-name="Classic T-Shirt" data-price="499">
+
+                <button class="wishlist-btn" data-id="tshirt" onclick="toggleWishlist(
+                        'Classic T-Shirt',
+                        499,
+                        'tshirt',
+                        'images/tshirt.jpg'
+                    )">
+                    ♡
+                </button>
+
+
+                <img src="images/tshirt.jpg" alt="Classic T-Shirt">
+
+
+                <h3>
+                    Classic T-Shirt
+                </h3>
+
+
+                <p class="price">
+
+                    <span class="old-price">
+                        ₹699
+                    </span>
+
+                    <span class="offer-price">
+                        ₹499
+                    </span>
+
+                </p>
+
+
+                <span class="offer-badge">
+                    29% OFF
+                </span>
+
+
+                <p class="stock in-stock">
+                    🟢 In Stock
+                </p>
+
+
+                <a href="product-details.html?product=tshirt">
+                    View Product
+                </a>
+
+            </div>
+
+
+            <!-- CASUAL SHIRT -->
+
+            <div class="product" data-category="men" data-name="Casual Shirt" data-price="699">
+
+                <button class="wishlist-btn" data-id="shirt" onclick="toggleWishlist(
+                        'Casual Shirt',
+                        699,
+                        'shirt',
+                        'images/shirt.jpg'
+                    )">
+                    ♡
+                </button>
+
+
+                <img src="images/shirt.jpg" alt="Casual Shirt">
+
+
+                <h3>
+                    Casual Shirt
+                </h3>
+
+
+                <p class="price">
+
+                    <span class="old-price">
+                        ₹899
+                    </span>
+
+                    <span class="offer-price">
+                        ₹699
+                    </span>
+
+                </p>
+
+
+                <span class="offer-badge">
+                    22% OFF
+                </span>
+
+
+                <p class="stock in-stock">
+                    🟢 In Stock
+                </p>
+
+
+                <a href="product-details.html?product=shirt">
+                    View Product
+                </a>
+
+            </div>
+
+
+            <!-- REGULAR JEANS -->
+
+            <div class="product" data-category="men" data-name="Regular Jeans" data-price="999">
+
+                <button class="wishlist-btn" data-id="jeans" onclick="toggleWishlist(
+                        'Regular Jeans',
+                        999,
+                        'jeans',
+                        'images/jeans.jpg'
+                    )">
+                    ♡
+                </button>
+
+
+                <img src="images/jeans.jpg" alt="Regular Jeans">
+
+
+                <h3>
+                    Regular Jeans
+                </h3>
+
+
+                <p class="price">
+
+                    <span class="old-price">
+                        ₹1299
+                    </span>
+
+                    <span class="offer-price">
+                        ₹999
+                    </span>
+
+                </p>
+
+
+                <span class="offer-badge">
+                    23% OFF
+                </span>
+
+
+                <p class="stock low-stock">
+                    🟠 Only 3 left
+                </p>
+
+
+                <a href="product-details.html?product=jeans">
+                    View Product
+                </a>
+
+            </div>
+
+
+            <!-- FASHION DRESS -->
+
+            <div class="product" data-category="women" data-name="Fashion Dress" data-price="899">
+
+                <button class="wishlist-btn" data-id="dress" onclick="toggleWishlist(
+                        'Fashion Dress',
+                        899,
+                        'dress',
+                        'images/dress.jpg'
+                    )">
+                    ♡
+                </button>
+
+
+                <img src="images/dress.jpg" alt="Fashion Dress">
+
+
+                <h3>
+                    Fashion Dress
+                </h3>
+
+
+                <p class="price">
+
+                    <span class="old-price">
+                        ₹1199
+                    </span>
+
+                    <span class="offer-price">
+                        ₹899
+                    </span>
+
+                </p>
+
+
+                <span class="offer-badge">
+                    25% OFF
+                </span>
+
+
+                <p class="stock in-stock">
+                    🟢 In Stock
+                </p>
+
+
+                <a href="product-details.html?product=dress">
+                    View Product
+                </a>
+
+            </div>
+
+
+            <!-- WINTER JACKET -->
+
+            <div class="product" data-category="men" data-name="Winter Jacket" data-price="1499">
+
+                <button class="wishlist-btn" data-id="jacket" onclick="toggleWishlist(
+                        'Winter Jacket',
+                        1499,
+                        'jacket',
+                        'images/jacket.jpg'
+                    )">
+                    ♡
+                </button>
+
+
+                <img src="images/jacket.jpg" alt="Winter Jacket">
+
+
+                <h3>
+                    Winter Jacket
+                </h3>
+
+
+                <p class="price">
+
+                    <span class="old-price">
+                        ₹1999
+                    </span>
+
+                    <span class="offer-price">
+                        ₹1499
+                    </span>
+
+                </p>
+
+
+                <span class="offer-badge">
+                    25% OFF
+                </span>
+
+
+                <p class="stock low-stock">
+                    🟠 Only 2 left
+                </p>
+
+
+                <a href="product-details.html?product=jacket">
+                    View Product
+                </a>
+
+            </div>
+
+
+            <!-- WOMEN TOP -->
+
+            <div class="product" data-category="women" data-name="Women Top" data-price="599">
+
+                <button class="wishlist-btn" data-id="top" onclick="toggleWishlist(
+                        'Women Top',
+                        599,
+                        'top',
+                        'images/top.jpg'
+                    )">
+                    ♡
+                </button>
+
+
+                <img src="images/top.jpg" alt="Women Top">
+
+
+                <h3>
+                    Women Top
+                </h3>
+
+
+                <p class="price">
+
+                    <span class="old-price">
+                        ₹799
+                    </span>
+
+                    <span class="offer-price">
+                        ₹599
+                    </span>
+
+                </p>
+
+
+                <span class="offer-badge">
+                    25% OFF
+                </span>
+
+
+                <p class="stock in-stock">
+                    🟢 In Stock
+                </p>
+
+
+                <a href="product-details.html?product=top">
+                    View Product
+                </a>
+
+            </div>
+
+
+            <!-- KIDS T-SHIRT -->
+
+            <div class="product" data-category="kids" data-name="Kids Casual T-Shirt" data-price="399">
+
+                <button class="wishlist-btn" data-id="kids" onclick="toggleWishlist(
+                        'Kids Casual T-Shirt',
+                        399,
+                        'kids',
+                        'images/kid.jpg'
+                    )">
+                    ♡
+                </button>
+
+
+                <img src="images/kid.jpg" alt="Kids Casual T-Shirt">
+
+
+                <h3>
+                    Kids Casual T-Shirt
+                </h3>
+
+
+                <p class="price">
+
+                    <span class="old-price">
+                        ₹499
+                    </span>
+
+                    <span class="offer-price">
+                        ₹399
+                    </span>
+
+                </p>
+
+
+                <span class="offer-badge">
+                    20% OFF
+                </span>
+
+
+                <p class="stock in-stock">
+                    🟢 In Stock
+                </p>
+
+
+                <a href="product-details.html?product=kids">
+                    View Product
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 KRISHNA STORE. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <!-- SCRIPTS -->
+
+    <script src="js/cart.js"></script>
+
+    <script src="js/wishlist.js"></script>
+
+
+    <script>
+        // ============================
+        // SEARCH + CATEGORY FILTER
+        // ============================
+
+        function filterProducts() {
+
+            const searchInput =
+                document.getElementById("searchInput");
+
+            const categoryFilter =
+                document.getElementById("categoryFilter");
+
+            const searchText =
+                searchInput.value
+                .toLowerCase()
+                .trim();
+
+            const category =
+                categoryFilter.value;
+
+            const products =
+                document.querySelectorAll(".product");
+
+
+            products.forEach(function(product) {
+
+                const name =
+                    product
+                    .getAttribute("data-name")
+                    .toLowerCase();
+
+                const productCategory =
+                    product
+                    .getAttribute("data-category");
+
+
+                const searchMatch =
+                    name.includes(searchText);
+
+
+                const categoryMatch =
+                    category === "all" ||
+                    productCategory === category;
+
+
+                if (
+                    searchMatch &&
+                    categoryMatch
+                ) {
+
+                    product.style.display = "";
+
+                } else {
+
+                    product.style.display = "none";
+
+                }
+
+            });
+
+        }
+
+
+        // ============================
+        // PRODUCT SORTING
+        // ============================
+
+        function sortProducts() {
+
+            const sortValue =
+                document.getElementById(
+                    "sortProducts"
+                ).value;
+
+
+            const container =
+                document.querySelector(
+                    ".product-grid"
+                );
+
+
+            const products =
+                Array.from(
+                    container.querySelectorAll(
+                        ".product"
+                    )
+                );
+
+
+            products.sort(function(a, b) {
+
+                const priceA =
+                    Number(
+                        a.getAttribute(
+                            "data-price"
+                        )
+                    );
+
+
+                const priceB =
+                    Number(
+                        b.getAttribute(
+                            "data-price"
+                        )
+                    );
+
+
+                const nameA =
+                    a.getAttribute(
+                        "data-name"
+                    ).toLowerCase();
+
+
+                const nameB =
+                    b.getAttribute(
+                        "data-name"
+                    ).toLowerCase();
+
+
+                if (
+                    sortValue === "price-low"
+                ) {
+
+                    return priceA - priceB;
+
+                }
+
+
+                if (
+                    sortValue === "price-high"
+                ) {
+
+                    return priceB - priceA;
+
+                }
+
+
+                if (
+                    sortValue === "name-az"
+                ) {
+
+                    return nameA.localeCompare(
+                        nameB
+                    );
+
+                }
+
+
+                if (
+                    sortValue === "name-za"
+                ) {
+
+                    return nameB.localeCompare(
+                        nameA
+                    );
+
+                }
+
+
+                return 0;
+
+            });
+
+
+            products.forEach(function(product) {
+
+                container.appendChild(product);
+
+            });
+
+
+            // Apply current search/filter
+            filterProducts();
+
+        }
+
+
+        // ============================
+        // CATEGORY FROM URL
+        // ============================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                const params =
+                    new URLSearchParams(
+                        window.location.search
+                    );
+
+                const category =
+                    params.get("category");
+
+
+                if (
+                    category &&
+                    (
+                        category === "men" ||
+                        category === "women" ||
+                        category === "kids"
+                    )
+                ) {
+
+                    document.getElementById(
+                        "categoryFilter"
+                    ).value = category;
+
+                }
+
+
+                filterProducts();
+
+            }
+        );
+    </script>
+
+</body>
+
+</html>

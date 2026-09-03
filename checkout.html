@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout - Krishna Store</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <header>
+
+        <div class="logo">
+            KRISHNA STORE
+        </div>
+
+        <nav>
+
+            <a href="index.html">Home</a>
+
+            <a href="products.html">Products</a>
+
+            <a href="cart.html">
+    Cart 🛒 (<span class="cart-count">0</span>)
+</a>
+
+            <a href="orders.html">My Orders</a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- Checkout -->
+
+    <section class="checkout-section">
+
+        <h1>
+            Checkout 🛍️
+        </h1>
+
+
+        <div class="checkout-container">
+
+
+            <!-- Delivery Details -->
+
+            <div class="customer-details">
+
+                <h2>
+                    Delivery Details
+                </h2>
+
+                <input type="text" id="name" placeholder="Full Name">
+
+                <input type="tel" id="phone" placeholder="Phone Number">
+
+                <textarea id="address" placeholder="Full Delivery Address"></textarea>
+
+                <input type="text" id="city" placeholder="City">
+
+                <input type="text" id="pincode" placeholder="PIN Code">
+
+            </div>
+
+
+            <!-- Order Summary -->
+
+            <div class="order-summary">
+
+                <h2>
+                    Order Summary
+                </h2>
+
+
+                <div id="checkout-items">
+                </div>
+
+
+                <hr>
+
+                <div class="coupon-box">
+
+                    <h3>Have a Promo Code?</h3>
+
+                    <div class="coupon-input">
+                        <input type="text" id="couponCode" placeholder="Enter coupon code">
+
+                        <button onclick="applyCoupon()">
+            Apply
+        </button>
+                    </div>
+
+                    <p id="couponMessage"></p>
+
+                    <p>
+                        Subtotal: ₹
+                        <span id="checkout-subtotal">0</span>
+                    </p>
+
+                    <p>
+                        Discount: -₹
+                        <span id="coupon-discount">0</span>
+                    </p>
+
+                    <h3>
+                        Total: ₹
+                        <span id="checkout-total">0</span>
+                    </h3>
+
+                </div>
+                <h2>
+                    Total: ₹
+                    <span id="checkout-total">
+                        0
+                    </span>
+                </h2>
+
+
+                <button class="checkout-btn" onclick="placeOrder()">
+
+                    Continue to Payment →
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 KRISHNA STORE. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <script src="js/cart.js"></script>
+    let couponDiscount = 0; function applyCoupon() { const input = document.getElementById("couponCode"); const message = document.getElementById("couponMessage"); const code = input.value.trim().toUpperCase(); const subtotal = Number( document.getElementById(
+    "checkout-subtotal" ).textContent ); if (code === "SAVE10") { couponDiscount = Math.round(subtotal * 0.10); message.textContent = "✅ SAVE10 applied! 10% discount."; message.style.color = "green"; } else if (code === "SAVE20") { couponDiscount = Math.round(subtotal
+    * 0.20); message.textContent = "✅ SAVE20 applied! 20% discount."; message.style.color = "green"; } else { couponDiscount = 0; message.textContent = "❌ Invalid coupon code."; message.style.color = "red"; } updateCheckoutTotal(); } function updateCheckoutTotal()
+    { const subtotal = Number( document.getElementById( "checkout-subtotal" ).textContent ); const total = subtotal - couponDiscount; document.getElementById( "coupon-discount" ).textContent = couponDiscount; document.getElementById( "checkout-total"
+    ).textContent = total; }
+
+
+    <script>
+        function showCheckout() {
+
+            const cart =
+                JSON.parse(
+                    localStorage.getItem("cart")
+                ) || [];
+
+
+            const items =
+                document.getElementById(
+                    "checkout-items"
+                );
+
+
+            const totalElement =
+                document.getElementById(
+                    "checkout-total"
+                );
+
+
+            items.innerHTML = "";
+
+
+            let grandTotal = 0;
+
+
+            if (cart.length === 0) {
+
+                items.innerHTML = `
+                    <p>
+                        Your cart is empty.
+                    </p>
+
+                    <a href="products.html">
+                        Start Shopping
+                    </a>
+                `;
+
+                totalElement.textContent = "0";
+
+                return;
+            }
+
+
+            cart.forEach(function(product) {
+
+                const subtotal =
+                    product.price *
+                    product.quantity;
+
+
+                grandTotal += subtotal;
+
+
+                items.innerHTML += `
+
+                    <div class="checkout-product">
+
+                        <div>
+
+                            <strong>
+                                ${product.name}
+                            </strong>
+
+                            <p>
+                                Size: ${product.size}
+                            </p>
+
+                            <p>
+                                Quantity:
+                                ${product.quantity}
+                            </p>
+
+                        </div>
+
+                        <strong>
+                            ₹${subtotal}
+                        </strong>
+
+                    </div>
+
+                `;
+
+            });
+
+
+            totalElement.textContent =
+                grandTotal;
+
+        }
+
+
+        function placeOrder() {
+
+            const name =
+                document.getElementById(
+                    "name"
+                ).value.trim();
+
+
+            const phone =
+                document.getElementById(
+                    "phone"
+                ).value.trim();
+
+
+            const address =
+                document.getElementById(
+                    "address"
+                ).value.trim();
+
+
+            const city =
+                document.getElementById(
+                    "city"
+                ).value.trim();
+
+
+            const pincode =
+                document.getElementById(
+                    "pincode"
+                ).value.trim();
+
+
+            if (!name ||
+                !phone ||
+                !address ||
+                !city ||
+                !pincode
+            ) {
+
+                alert(
+                    "Please fill all delivery details."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                phone.length < 10
+            ) {
+
+                alert(
+                    "Please enter a valid phone number."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                pincode.length !== 6
+            ) {
+
+                alert(
+                    "Please enter a valid 6-digit PIN code."
+                );
+
+                return;
+
+            }
+
+
+            const cart =
+                JSON.parse(
+                    localStorage.getItem("cart")
+                ) || [];
+
+
+            if (cart.length === 0) {
+
+                alert(
+                    "Your cart is empty."
+                );
+
+                return;
+
+            }
+
+
+            let grandTotal = 0;
+
+
+            cart.forEach(function(product) {
+
+                grandTotal +=
+                    product.price *
+                    product.quantity;
+
+            });
+
+
+            /*
+             * Save delivery details
+             */
+
+            const deliveryDetails = {
+
+                name: name,
+
+                phone: phone,
+
+                address: address,
+
+                city: city,
+
+                pincode: pincode
+
+            };
+
+
+            localStorage.setItem(
+                "deliveryDetails",
+                JSON.stringify(
+                    deliveryDetails
+                )
+            );
+
+
+            /*
+             * Save order total
+             */
+
+            localStorage.setItem(
+                "orderTotal",
+                grandTotal
+            );
+
+
+            /*
+             * Go to payment
+             */
+
+            window.location.href =
+                "payment.html";
+
+        }
+
+
+        showCheckout();
+    </script>
+
+
+</body>
+
+</html>

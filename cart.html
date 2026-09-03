@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shopping Cart - Krishna Store</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <header>
+
+        <div class="logo">
+            KRISHNA STORE
+        </div>
+
+        <nav>
+
+            <a href="index.html">Home</a>
+
+            <a href="products.html">Products</a>
+
+            <a href="products.html?category=men">
+                Men
+            </a>
+
+            <a href="products.html?category=women">
+                Women
+            </a>
+
+            <a href="products.html?category=kids">
+                Kids
+            </a>
+
+            <a href="cart.html">
+    Cart 🛒 (<span class="cart-count">0</span>)
+</a>
+            <a href="orders.html">
+                My Orders
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- Cart -->
+
+    <section class="cart-section">
+
+        <h1>
+            Your Shopping Cart 🛒
+        </h1>
+
+
+        <div id="cart-items">
+        </div>
+
+
+        <!-- Cart Summary -->
+
+        <div class="cart-summary">
+
+            <h2>
+                Grand Total: ₹
+                <span id="cart-total">0</span>
+            </h2>
+
+
+            <div class="cart-buttons">
+
+                <a href="products.html" class="continue-btn">
+
+                    ← Continue Shopping
+
+                </a>
+
+
+                <a href="checkout.html" class="checkout-btn">
+
+                    Proceed to Checkout →
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <p>
+            © 2026 KRISHNA STORE. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <script src="js/cart.js"></script>
+
+</body>
+
+</html>

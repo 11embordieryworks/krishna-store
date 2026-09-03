@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Krishna Store</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            KRISHNA STORE
+        </div>
+
+        <nav>
+
+            <a href="index.html">Home</a>
+
+            <a href="products.html">Products</a>
+
+            <a href="cart.html">Cart 🛒</a>
+
+            <a href="orders.html">My Orders</a>
+
+        </nav>
+
+    </header>
+
+
+    <section class="login-section">
+
+        <div class="login-card">
+
+            <div class="login-logo">
+                🛍️
+            </div>
+
+            <h1>
+                Welcome Back
+            </h1>
+
+            <p class="login-subtitle">
+                Login to your Krishna Store account
+            </p>
+
+
+            <!-- Login Form -->
+
+            <div id="login-form">
+
+                <input type="email" id="login-email" placeholder="Email Address">
+
+                <input type="password" id="login-password" placeholder="Password">
+
+                <button class="checkout-btn login-btn" onclick="loginUser()">
+
+                    Login
+
+                </button>
+
+
+                <p class="switch-text">
+
+                    Don't have an account?
+
+                    <button class="switch-btn" onclick="showSignup()">
+
+                        Create Account
+
+                    </button>
+
+                </p>
+
+            </div>
+
+
+            <!-- Signup Form -->
+
+            <div id="signup-form" style="display:none;">
+
+                <input type="text" id="signup-name" placeholder="Full Name">
+
+                <input type="email" id="signup-email" placeholder="Email Address">
+
+                <input type="password" id="signup-password" placeholder="Create Password">
+
+                <button class="checkout-btn login-btn" onclick="signupUser()">
+
+                    Create Account
+
+                </button>
+
+
+                <p class="switch-text">
+
+                    Already have an account?
+
+                    <button class="switch-btn" onclick="showLogin()">
+
+                        Login
+
+                    </button>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            © 2026 KRISHNA STORE. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <script>
+        function showSignup() {
+
+            document.getElementById(
+                "login-form"
+            ).style.display = "none";
+
+            document.getElementById(
+                "signup-form"
+            ).style.display = "block";
+
+        }
+
+
+        function showLogin() {
+
+            document.getElementById(
+                "signup-form"
+            ).style.display = "none";
+
+            document.getElementById(
+                "login-form"
+            ).style.display = "block";
+
+        }
+
+
+        function signupUser() {
+
+            const name =
+                document.getElementById(
+                    "signup-name"
+                ).value.trim();
+
+            const email =
+                document.getElementById(
+                    "signup-email"
+                ).value.trim();
+
+            const password =
+                document.getElementById(
+                    "signup-password"
+                ).value;
+
+
+            if (!name || !email || !password) {
+
+                alert(
+                    "Please fill all details."
+                );
+
+                return;
+
+            }
+
+
+            if (password.length < 6) {
+
+                alert(
+                    "Password must be at least 6 characters."
+                );
+
+                return;
+
+            }
+
+
+            const user = {
+
+                name: name,
+
+                email: email,
+
+                password: password
+
+            };
+
+
+            localStorage.setItem(
+                "krishnaUser",
+                JSON.stringify(user)
+            );
+
+
+            alert(
+                "Account created successfully! 🎉"
+            );
+
+
+            showLogin();
+
+        }
+
+
+        function loginUser() {
+
+            const email =
+                document.getElementById(
+                    "login-email"
+                ).value.trim();
+
+            const password =
+                document.getElementById(
+                    "login-password"
+                ).value;
+
+
+            const savedUser =
+                JSON.parse(
+                    localStorage.getItem(
+                        "krishnaUser"
+                    )
+                );
+
+
+            if (!savedUser) {
+
+                alert(
+                    "No account found. Please create an account first."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                email === savedUser.email &&
+                password === savedUser.password
+            ) {
+
+                localStorage.setItem(
+                    "loggedIn",
+                    "true"
+                );
+
+
+                localStorage.setItem(
+                    "loggedInName",
+                    savedUser.name
+                );
+
+
+                alert(
+                    "Login successful! 🎉"
+                );
+
+
+                window.location.href =
+                    "index.html";
+
+            } else {
+
+                alert(
+                    "Incorrect email or password."
+                );
+
+            }
+
+        }
+    </script>
+
+</body>
+
+</html>

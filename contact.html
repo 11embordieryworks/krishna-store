@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact Us - KRISHNA STORE</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .contact-section {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        
+        .contact-section h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .contact-intro {
+            text-align: center;
+            color: #666;
+            margin-bottom: 35px;
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+        }
+        
+        .contact-info,
+        .contact-form {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .contact-info h2,
+        .contact-form h2 {
+            margin-bottom: 20px;
+        }
+        
+        .contact-info p {
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+        
+        .contact-form label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .contact-form textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+        
+        .contact-form button {
+            width: 100%;
+            padding: 13px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .contact-form button:hover {
+            opacity: 0.85;
+        }
+        
+        #contactMessage {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .cart-count,
+        .wishlist-count {
+            font-weight: bold;
+            color: red;
+        }
+        
+        @media (max-width: 700px) {
+            .contact-section {
+                margin: 25px auto;
+                padding: 15px;
+            }
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+        <nav>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="products.html">
+                Products
+            </a>
+
+            <a href="products.html?category=men">
+                Men
+            </a>
+
+            <a href="products.html?category=women">
+                Women
+            </a>
+
+            <a href="products.html?category=kids">
+                Kids
+            </a>
+
+            <a href="cart.html">
+                Cart 🛒
+                (<span class="cart-count">0</span>)
+            </a>
+
+            <a href="wishlist.html">
+                Wishlist ❤️
+                (<span class="wishlist-count">0</span>)
+            </a>
+
+            <a href="orders.html">
+                My Orders
+            </a>
+
+            <a href="recently-viewed.html">
+                Recently Viewed 👀
+            </a>
+
+            <a href="contact.html">
+                Contact Us 📞
+            </a>
+
+        </nav>
+    </header>
+
+
+    <!-- CONTACT SECTION -->
+
+    <section class="contact-section">
+
+        <h1>
+            Contact Us 📞
+        </h1>
+
+        <p class="contact-intro">
+            Have a question? We'd love to hear from you.
+        </p>
+
+
+        <div class="contact-container">
+
+
+            <!-- CONTACT INFORMATION -->
+
+            <div class="contact-info">
+
+                <h2>
+                    Get In Touch
+                </h2>
+
+                <p>
+                    📧 <strong>Email:</strong><br> support@krishnastore.com
+                </p>
+
+                <p>
+                    📱 <strong>Phone:</strong><br> +91 98765 43210
+                </p>
+
+                <p>
+                    🕒 <strong>Support Hours:</strong><br> Monday - Saturday<br> 9:00 AM - 6:00 PM
+                </p>
+
+                <p>
+                    📍 <strong>Location:</strong><br> India
+                </p>
+
+            </div>
+
+
+            <!-- CONTACT FORM -->
+
+            <div class="contact-form">
+
+                <h2>
+                    Send Us a Message
+                </h2>
+
+                <form id="contactForm" onsubmit="sendMessage(event)">
+
+                    <label for="name">
+                        Name
+                    </label>
+
+                    <input type="text" id="name" placeholder="Enter your name" required>
+
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input type="email" id="email" placeholder="Enter your email" required>
+
+
+                    <label for="phone">
+                        Phone
+                    </label>
+
+                    <input type="tel" id="phone" placeholder="Enter your phone number">
+
+
+                    <label for="subject">
+                        Subject
+                    </label>
+
+                    <input type="text" id="subject" placeholder="Enter subject" required>
+
+
+                    <label for="message">
+                        Message
+                    </label>
+
+                    <textarea id="message" placeholder="Write your message..." required></textarea>
+
+
+                    <button type="submit">
+                        Send Message 📩
+                    </button>
+
+                    <p id="contactMessage"></p>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <footer class="site-footer">
+
+        <div class="footer-container">
+
+            <!-- STORE INFO -->
+
+            <div class="footer-column">
+
+                <div class="footer-logo">
+                    KRISHNA STORE 🛍️
+                </div>
+
+                <p>
+                    Your simple destination for stylish and affordable fashion.
+                </p>
+
+                <div class="footer-social">
+
+                    <a href="#" title="Instagram">
+                    📷
+                </a>
+
+                    <a href="#" title="Facebook">
+                    📘
+                </a>
+
+                    <a href="#" title="YouTube">
+                    ▶️
+                </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK LINKS -->
+
+            <div class="footer-column">
+
+                <h3>
+                    Quick Links
+                </h3>
+
+                <a href="index.html">
+                Home
+            </a>
+
+                <a href="products.html">
+                Products
+            </a>
+
+                <a href="about.html">
+                About Us
+            </a>
+
+                <a href="contact.html">
+                Contact Us
+            </a>
+
+                <a href="faq.html">
+                FAQ
+            </a>
+
+            </div>
+
+
+            <!-- SHOP -->
+
+            <div class="footer-column">
+
+                <h3>
+                    Shop
+                </h3>
+
+                <a href="products.html?category=men">
+                Men 👔
+            </a>
+
+                <a href="products.html?category=women">
+                Women 👗
+            </a>
+
+                <a href="products.html?category=kids">
+                Kids 👕
+            </a>
+
+                <a href="wishlist.html">
+                Wishlist ❤️
+            </a>
+
+                <a href="cart.html">
+                Cart 🛒
+            </a>
+
+            </div>
+
+
+            <!-- SUPPORT -->
+
+            <div class="footer-column">
+
+                <h3>
+                    Customer Support
+                </h3>
+
+                <p>
+                    📧 support@krishnastore.com
+                </p>
+
+                <p>
+                    📱 +91 98765 43210
+                </p>
+
+                <p>
+                    🕒 Monday - Saturday
+                    <br> 9:00 AM - 6:00 PM
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- FOOTER BOTTOM -->
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 KRISHNA STORE. All Rights Reserved.
+            </p>
+
+            <p>
+
+                <a href="privacy.html">
+                Privacy Policy
+            </a> &nbsp; | &nbsp;
+
+                <a href="terms.html">
+                Terms & Conditions
+            </a>
+
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- CART + WISHLIST -->
+
+    <script src="js/cart.js"></script>
+
+    <script src="js/wishlist.js"></script>
+
+
+    <!-- CONTACT FORM SCRIPT -->
+
+    <script>
+        function sendMessage(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document.getElementById("name").value.trim();
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const phone =
+                document.getElementById("phone").value.trim();
+
+            const subject =
+                document.getElementById("subject").value.trim();
+
+            const message =
+                document.getElementById("message").value.trim();
+
+
+            const contactMessage =
+                document.getElementById("contactMessage");
+
+
+            const messages =
+                JSON.parse(
+                    localStorage.getItem("contactMessages")
+                ) || [];
+
+
+            const newMessage = {
+
+                id: Date.now(),
+
+                name: name,
+
+                email: email,
+
+                phone: phone,
+
+                subject: subject,
+
+                message: message,
+
+                date: new Date().toLocaleString()
+
+            };
+
+
+            messages.push(newMessage);
+
+
+            localStorage.setItem(
+                "contactMessages",
+                JSON.stringify(messages)
+            );
+
+
+            contactMessage.textContent =
+                "✅ Your message has been sent successfully!";
+
+            contactMessage.style.color =
+                "green";
+
+
+            document
+                .getElementById("contactForm")
+                .reset();
+
+        }
+    </script>
+
+</body>
+
+</html>
